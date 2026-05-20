@@ -1,0 +1,80 @@
+name: Atlas
+options:
+  bundleIdPrefix: com.atlas.app
+  deploymentTarget:
+    iOS: "18.0"
+  createIntermediateGroups: true
+  developmentLanguage: en
+
+settings:
+  base:
+    SWIFT_VERSION: "5.10"
+    IPHONEOS_DEPLOYMENT_TARGET: "18.0"
+    ENABLE_USER_SCRIPT_SANDBOXING: NO
+    GENERATE_INFOPLIST_FILE: NO
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+
+packages:
+  AtlasShared:
+    path: AtlasShared
+
+targets:
+  Atlas:
+    type: application
+    platform: iOS
+    sources:
+      - path: Atlas
+        excludes:
+          - "**/*.md"
+    resources:
+      - Atlas/Assets.xcassets
+    info:
+      path: Atlas/Resources/Info.plist
+    entitlements:
+      path: Atlas/Atlas.entitlements
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.atlas.app
+        TARGETED_DEVICE_FAMILY: "1"
+        SWIFT_EMIT_LOC_STRINGS: YES
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait"
+    dependencies:
+      - package: AtlasShared
+        product: AtlasShared
+      - target: AtlasControls
+        embed: true
+
+  AtlasControls:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: AtlasControls
+    info:
+      path: AtlasControls/Info.plist
+    entitlements:
+      path: AtlasControls/AtlasControls.entitlements
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.atlas.app.controls
+        TARGETED_DEVICE_FAMILY: "1"
+        SWIFT_EMIT_LOC_STRINGS: YES
+    dependencies:
+      - package: AtlasShared
+        product: AtlasShared
+      - sdk: WidgetKit.framework
+      - sdk: SwiftUI.framework
+      - sdk: ActivityKit.framework
+
+schemes:
+  Atlas:
+    build:
+      targets:
+        Atlas: all
+        AtlasControls: all
+    run:
+      config: Debug
+    archive:
+      config: Release
