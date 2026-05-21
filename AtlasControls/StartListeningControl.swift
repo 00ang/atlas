@@ -7,7 +7,7 @@ struct StartListeningControl: ControlWidget {
     var body: some ControlWidgetConfiguration {
         StaticControlConfiguration(kind: "com.atlas.app.controls.start") {
             ControlWidgetButton(action: StartListeningIntent()) {
-                Label("Atlas", systemImage: "mic.fill")
+                Label("Atlas", systemImage: "waveform.and.mic")
             }
         }
         .displayName("Atlas")
